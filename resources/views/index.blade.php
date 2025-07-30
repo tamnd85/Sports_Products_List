@@ -4,9 +4,9 @@
 
 @section('content')
 
-   {{--}} <nav>
-        <a href="{{ route('products.create') }}"> Add Product</a>
-    </nav>--}}
+    <nav>
+        <a  class="link" href="{{ route('products.create') }}"> Add Product</a>
+    </nav>
     @forelse ($products as $product)
         <div>
             <a href="{{ route('products.show', ['product' => $product->id]) }}"

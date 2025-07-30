@@ -30,9 +30,22 @@ class ProductFactory extends Factory
 
         ];
 
+        $descriptions = [
+        'Durable and lightweight, perfect for intense training sessions.',
+        'Designed for professional athletes and beginners alike.',
+        'High-quality materials ensure comfort and performance.',
+        'Ideal for competitive matches and regular practice.',
+        'Provides excellent grip and long-lasting durability.',
+        'Perfect balance between style, comfort, and utility.',
+        'Engineered for maximum performance on the field.',
+        'Reliable and sturdy, built for everyday sports use.',
+        'Comfortable design to enhance your athletic experience.',
+        'A must-have for every sports enthusiast.',
+    ];
+
         return [
             'name'          => $this->faker->randomElement($sportsProducts),
-            'description'   => $this->faker->sentence(),
+            'description'   => $this->faker->randomElement($descriptions),
             'stock'         => $this->faker->numberBetween(0,100),
             'price'         => $this->faker->randomFloat(2,10,500),
         ];
