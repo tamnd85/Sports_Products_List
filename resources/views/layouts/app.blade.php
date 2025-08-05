@@ -8,15 +8,15 @@
             {{--blade-formatter-disable--}}
             <style type="text/tailwindcss">
                 .btn {
-                    @apply rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100 ;
+                    @apply rounded-md px-4 py-2 text-center font-medium text-white shadow-sm ring-1 ring-slate-700/10 hover:bg-blue-700 bg-blue-600;
                 }
 
                 .btn1 {
-                    @apply rounded-md px-2 py-1 text-center font-medium text-green-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100 ;
+                    @apply rounded-md px-4 py-2 text-center font-medium text-white shadow-sm ring-1 ring-slate-700/10 hover:bg-green-700 bg-green-600;
                 }
 
                 .btn2 {
-                    @apply rounded-md px-2 py-1 text-center font-medium text-red-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100 ;
+                    @apply rounded-md px-4 py-2 text-center font-medium text-white shadow-sm ring-1 ring-slate-700/10 hover:bg-red-700 bg-red-600;
                 }
 
                 .link {
@@ -44,7 +44,11 @@
             @yield('styles')
         </head>
         <body>
-            <h1>@yield('title')</h1>
+            <header class="bg-gray-100 py-6 shadow">
+                <div class="container mx-auto px-4">
+                    <h1 class="text-3xl font-bold text-gray-800">@yield('title')</h1>
+                </div>
+            </header>
             @yield('content')
         </body>
     </html>

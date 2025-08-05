@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -48,6 +49,7 @@ class ProductFactory extends Factory
             'description'   => $this->faker->randomElement($descriptions),
             'stock'         => $this->faker->numberBetween(0,100),
             'price'         => $this->faker->randomFloat(2,10,500),
+            'image' => "https://picsum.photos/seed/" . Str::random(10) . "/400/300",
         ];
     }
 }
