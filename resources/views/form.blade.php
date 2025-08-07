@@ -3,7 +3,7 @@
 @section('title', isset($product) ? 'Edit Product' : 'Add Product')
 
 @section('content')
-    <form method="POST" action="{{ isset($product) ? route('products.update', $product) : route('products.store') }}" class="max-w-lg mx-auto p-6 bg-white rounded shadow-md">
+    <form method="POST" action="{{ isset($product) ? route('products.update', $product) : route('products.store') }}" enctype="multipart/form-data" class="max-w-lg mx-auto p-6 bg-white rounded shadow-md">
         @csrf
         @isset($product)
             @method('PUT')
@@ -51,18 +51,36 @@
         </div>
 
         <div class="mb-6">
-            <label for="price" class="block mb-2 font-semibold text-gray-700">Price (€)</label>
+            <label for="price" class="block mb-2 font-semibold text-gray-700">Price</label>
             <input
                 type="number"
-                step="0.01"
                 name="price"
                 id="price"
+                step="0.01"
                 value="{{ old('price', $product->price ?? '') }}"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 @error('price') border-red-500 @enderror"
             >
             @error('price')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
+        </div>
+
+        <div class="mb-6">
+            <label for="image" class="block mb-2 font-semibold text-gray-700">Product Image</label>
+            <input
+                type="file"
+                name="image"
+                id="image"
+                class="w-full"
+                accept="image/*"
+            >
+            @error('image')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+
+            @isset($product->image)
+                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="mt-4 max-w-xs rounded">
+            @endisset
         </div>
 
         <div class="flex items-center gap-4">

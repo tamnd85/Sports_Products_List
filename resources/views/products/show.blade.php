@@ -5,7 +5,10 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-3xl bg-white rounded-lg shadow-md">
     <div class="mb-6">
-        <a href="{{ route('products.index') }}" class="link text-blue-600 hover:underline">&larr; Go back to products list!</a>
+        <a href="{{ route('products.show', $product) }}"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded transition duration-200">
+            ← Back to Product List
+        </a>
     </div>
 
     <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $product->name }}</h1>
@@ -23,6 +26,22 @@
     </p>
 
     <p class="mb-6 text-lg font-semibold text-gray-800">Price: <span class="text-blue-600">{{ $product->price }} €</span></p>
+    <div class="flex flex-wrap gap-4">
+        <p class="mb-6 text-lg font-semibold text-gray-800">
+            Average rating:
+            <span class="text-blue-600">
+                {{ number_format($product->reviews_avg_rating, 1) ?? 'N/A' }} / 5
+            </span>
+        </p>
+        <a href="{{ route('products.reviews.index', ['product' => $product->id, 'review']) }}"
+            class="btn  h-10 bg-blue-600 text-white hover:bg-blue-700 transition">
+            Show Reviews
+        </a>
+        <a href="{{ route('products.reviews.create', ['product' => $product->id, 'review']) }}"
+            class="btn  h-10 bg-blue-600 text-white hover:bg-blue-700 transition">
+            Add a Review
+        </a>
+    </div>
 
     <div class="flex flex-wrap gap-4">
         <a href="{{ route('products.edit', ['product' => $product]) }}"
@@ -56,6 +75,7 @@
                 Update
             </button>
         </form>
+
     </div>
 </div>
 @endsection

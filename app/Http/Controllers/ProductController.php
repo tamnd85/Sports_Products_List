@@ -12,19 +12,45 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        $products = Product::latest()->paginate();
+        $query = Product::query();
 
-        return view('index', compact('products'));
+        // Load relation to calculate average rating if used later
+        $query->withAvg('reviews', 'rating');
+
+        // Filter based on selected option
+        switch ($request->input('filter')) {
+            case 'latest':
+                $query->latest();
+                break;
+
+            case 'rating':
+                $query->orderByDesc('reviews_avg_rating');
+                break;
+
+            case 'stock':
+                $query->where('stock', '>', 0);
+                break;
+
+            default:
+                $query->latest(); // default sorting
+                break;
+        }
+
+        $products = $query->paginate(10);
+
+        return view('products.index', compact('products'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('create');
+        return view('products.create');
     }
 
     /**
@@ -43,7 +69,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('show', compact('product'));
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -51,7 +77,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('edit', compact('product'));
+        return view('products.edit', compact('product'));
     }
 
     /**
