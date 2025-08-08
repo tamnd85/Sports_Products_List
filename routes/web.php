@@ -19,3 +19,4 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 
 Route::resource('products.reviews', ReviewController::class);
 
+

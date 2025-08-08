@@ -27,7 +27,9 @@ class ReviewController extends Controller
 
         $reviews = $query->paginate(10);
 
-        return view('products.reviews.index', compact('product','reviews'));
+        return view('products.reviews.index', compact('product', 'reviews'));
+
+
     }
 
     /**
@@ -41,12 +43,16 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Product $product)
-    {
-        $product->reviews()->create($request->validated());
-        return redirect()->route('products.reviews.index', $product)
-                         ->with('success', 'Review added successfully!');
-    }
+
+
+public function store(ReviewRequest $request, Product $product)
+{
+    $data = $request->validated();
+    $product->reviews()->create($data);
+
+    return redirect()->route('products.reviews.index', $product);
+}
+
 
     /**
      * Display the specified review.
@@ -67,12 +73,12 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ReviewRequest $request, Product $prroduct, Review $review)
-    {
-        $review->update($request->validated());
-        return redirect()->route('products,reviews.show', $product)
-            ->with('success', 'Review updated successfully!');
-    }
+   public function update(ReviewRequest $request, Product $product, Review $review)
+{
+    $review->update($request->validated());
+
+    return redirect()->route('products.reviews.show', [$product, $review]);
+}
 
     /**
      * Remove the specified resource from storage.

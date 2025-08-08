@@ -3,7 +3,7 @@
 @section('title', isset($review) ? 'Edit Review' : 'Add Review')
 
 @section('content')
-    <form method="POST" action="{{ isset($review) ? route('reviews.update', $review) : route('products.reviews.store', ['product' => $product->id]) }}" class="max-w-lg mx-auto p-6 bg-white rounded shadow-md">
+    <form method="POST" action="{{ isset($review) ? route('products.reviews.update', ['product' => $product->id, 'review' => $review->id]) : route('products.reviews.store', ['product' => $product->id]) }}" class="max-w-lg mx-auto p-6 bg-white rounded shadow-md">
         @csrf
         @isset($review)
             @method('PUT')

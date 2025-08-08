@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-3xl bg-white rounded-lg shadow-md">
     <div class="mb-6">
-        <a href="{{ route('products.show', $product) }}"
+        <a href="{{ route('products.index', $product) }}"
             class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded transition duration-200">
             ← Back to Product List
         </a>
