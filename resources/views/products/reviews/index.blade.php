@@ -47,9 +47,17 @@
                         </p>
 
                         <a href="{{ route('products.reviews.show', ['product' => $product->id, 'review' => $review->id]) }}"
-                           class="mt-3 inline-block text-blue-600 hover:underline font-semibold">
+                        class="mt-3 inline-block text-blue-600 hover:underline font-semibold">
                             View Details →
-                        </a>
+                        </a><br>
+
+                        @if($review->replies()->count() > 0)
+    <a href="{{ route('products.reviews.replies.index', ['product' => $product->id, 'review' => $review->id]) }}"
+       class="mt-3 inline-block text-blue-600 hover:underline font-semibold">
+        Show Replies →
+    </a>
+@endif
+
                     </div>
                 @endforeach
             </div>

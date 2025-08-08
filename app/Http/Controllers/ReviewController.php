@@ -43,24 +43,25 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function store(ReviewRequest $request, Product $product)
+    {
+        $data = $request->validated();
+        $product->reviews()->create($data);
 
-
-public function store(ReviewRequest $request, Product $product)
-{
-    $data = $request->validated();
-    $product->reviews()->create($data);
-
-    return redirect()->route('products.reviews.index', $product);
-}
+        return redirect()->route('products.reviews.index', $product);
+    }
 
 
     /**
      * Display the specified review.
      */
     public function show(Product $product, Review $review)
-    {
-        return view('products.reviews.show', compact('product', 'review'));
-    }
+{
+    $replies = $review->replies()->latest()->get();
+
+    return view('products.reviews.show', compact('product', 'review', 'replies'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -87,7 +88,15 @@ public function store(ReviewRequest $request, Product $product)
     {
         $review->delete();
 
-        return redirect()->route('products.reviews.index')
+        return redirect()->route('products.reviews.index', $product)
             ->with('success', 'Review deleted successfully!');
     }
+
+    // App\Models\Review.php
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
 }
