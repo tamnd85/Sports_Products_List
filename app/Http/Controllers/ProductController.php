@@ -68,9 +68,10 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
-    }
+{
+    $product->loadAvg('reviews', 'rating');
+    return view('products.show', compact('product'));
+}
 
     /**
      * Show the form for editing the specified resource.
