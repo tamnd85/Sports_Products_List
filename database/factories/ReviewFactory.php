@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,10 +31,10 @@ class ReviewFactory extends Factory
         ];
 
         return [
-            'product_id' => null,
-            'author' => $this->faker->name(),
+            'product_id'    => null,
+            'user_id'       => User::factory(),
             'review'        => $this->faker->randomElement($reviews),
-            'rating' => $this->faker->numberBetween(1, 5),
+            'rating'        => $this->faker->numberBetween(1, 5),
             'created_at'    => fake()->dateTimeBetween('-2 years'),
             'updated_at'    => fake()->dateTimeBetween('created_at','now')
         ];

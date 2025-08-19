@@ -6,54 +6,54 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\Reply;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        Product::factory(25)->create()->each(function ($product){
-            $numReviews = random_int(2,10);
-
-            Review::factory()->count($numReviews)
-            ->excellent()
-            ->for($product)
-            ->create();
-        });
-
-        Product::factory(25)->create()->each(function ($product){
-            $numReviews = random_int(2,10);
-
-            Review::factory()->count($numReviews)
-            ->good()
-            ->for($product)
-            ->create();
-        });
-
-        Product::factory(25)->create()->each(function ($product){
-            $numReviews = random_int(2,10);
-
-            Review::factory()->count($numReviews)
-            ->average()
-            ->for($product)
-            ->create();
-        });
-        Product::factory(25)->create()->each(function ($product){
-            $numReviews = random_int(2,10);
-
-            Review::factory()->count($numReviews)
-            ->bad()
-            ->for($product)
-            ->create();
-        });
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create an admin user
+        $admin = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@test.com',
+            'is_admin' => true,
+            'password' => bcrypt('password'),
         ]);
+
+        // Create 25 normal users
+        $users = User::factory(25)->create();
+
+        // Create 100 products
+        $products = Product::factory(100)->create();
+
+        // For each product, create between 2 and 10 reviews
+        $products->each(function ($product) use ($users, $admin) {
+            $numReviews = random_int(2, 10);
+
+            for ($i = 0; $i < $numReviews; $i++) {
+                // Randomly select a rating scope: excellent, good, average, or bad
+                $ratingScope = collect(['excellent', 'good', 'average', 'bad'])->random();
+
+                // Create a review using the chosen scope
+                $review = Review::factory()
+                    ->$ratingScope() // apply the scope BEFORE creating
+                    ->state(function () use ($users, $product) {
+                        return [
+                            'user_id' => $users->random()->id,  // assign a random user
+                            'product_id' => $product->id,       // assign the current product
+                        ];
+                    })
+                    ->create();
+
+                // Optionally create a reply from the admin for some reviews
+                if (rand(0, 1)) { // 50% chance
+                    Reply::factory()->create([
+                        'review_id' => $review->id,
+                        'author' => $admin->name,             // only admin can reply
+                        'content' => 'This is an example reply', // example reply text
+                    ]);
+                }
+            }
+        });
     }
 }

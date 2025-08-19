@@ -9,7 +9,7 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['author', 'review', 'rating'];
+    protected $fillable = ['user_id', 'review', 'rating'];
 
     public function product()
     {
@@ -19,5 +19,15 @@ class Review extends Model
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getAuthorAttribute()
+    {
+        return $this->user ? $this->user->name : 'Usuario Eliminado';
     }
 }
