@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\Response;
 class ReviewPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any reviews.
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +17,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the review.
      */
     public function view(User $user, Review $review): bool
     {
@@ -25,7 +25,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create reviews.
      */
     public function create(User $user): bool
     {
@@ -33,7 +33,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the review.
      */
     public function update(User $user, Review $review): Response
     {
@@ -44,7 +44,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the review.
      */
     public function delete(User $user, Review $review): Response
     {
@@ -55,7 +55,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can restore the review.
      */
     public function restore(User $user, Review $review): bool
     {
@@ -63,7 +63,7 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete the review.
      */
     public function forceDelete(User $user, Review $review): bool
     {

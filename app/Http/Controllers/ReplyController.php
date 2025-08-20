@@ -7,9 +7,12 @@ use App\Models\Review;
 use App\Models\Product;
 use App\Models\Reply;
 use App\Http\Requests\ReplyRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ReplyController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing all reviews.
      */
@@ -25,6 +28,8 @@ class ReplyController extends Controller
      */
      public function create(Product $product, Review $review)
     {
+        $this->authorize('create', [Reply::class, $review]);
+
         return view('products.reviews.replies.create', compact('product', 'review'));
     }
 
@@ -33,7 +38,10 @@ class ReplyController extends Controller
      */
     public function store(ReplyRequest $request, Product $product, Review $review)
     {
+        $this->authorize('create', [Reply::class, $review]);
+
         $data = $request->validated();
+        $data['user_id'] = auth()->id(); // Asociar al usuario autenticado
         $review->replies()->create($data);
 
         return redirect()->route('products.reviews.show', [$product, $review]);
@@ -44,10 +52,12 @@ class ReplyController extends Controller
      */
     public function destroy(Product $product, Review $review, Reply $reply)
     {
+        $this->authorize('delete', $reply);
+
         $reply->delete();
 
         return redirect()->route('products.reviews.show', [$product, $review])
-            ->with('success', 'Review deleted successfully!');
+            ->with('success', 'Reply deleted successfully!');
     }
 
     /**

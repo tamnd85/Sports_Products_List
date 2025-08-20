@@ -9,47 +9,50 @@ use Illuminate\Auth\Access\Response;
 class ReplyPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any replies.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the reply.
      */
     public function view(User $user, Reply $reply): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create replies.
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the reply.
      */
     public function update(User $user, Reply $reply): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the reply.
      */
     public function delete(User $user, Reply $reply): bool
     {
-        return false;
-    }
+        // Only admin can delete replies
+        return $user->is_admin
+            ? Response::allow()
+            : Response::deny('only admin can delete Replies.');
+        }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can restore the reply.
      */
     public function restore(User $user, Reply $reply): bool
     {
@@ -57,7 +60,7 @@ class ReplyPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete the reply.
      */
     public function forceDelete(User $user, Reply $reply): bool
     {

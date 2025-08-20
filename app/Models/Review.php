@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Reply;
 
 class Review extends Model
 {
@@ -30,4 +31,5 @@ class Review extends Model
     {
         return $this->user ? $this->user->name : 'Usuario Eliminado';
     }
+
 }

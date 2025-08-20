@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Product;
 use App\Http\Requests\ReviewRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ReviewController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing all reviews.
      */
@@ -68,6 +71,8 @@ class ReviewController extends Controller
      */
     public function edit(Product $product, review $review)
     {
+        $this->authorize('update', $review);
+
         return view('products.reviews.edit', compact('product', 'review'));
     }
 
@@ -75,28 +80,26 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      */
    public function update(ReviewRequest $request, Product $product, Review $review)
-{
-    $review->update($request->validated());
+    {
+        $this->authorize('update', $review);
 
-    return redirect()->route('products.reviews.show', [$product, $review]);
-}
+        $review->update($request->validated());
+
+        return redirect()->route('products.reviews.show', [$product, $review]);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product, Review $review)
     {
-        $review->delete();
+        $this->authorize('delete', $review);
 
-        return redirect()->route('products.reviews.index', $product)
-            ->with('success', 'Review deleted successfully!');
+    $review->delete();
+
+    return redirect()->route('products.reviews.index', $product)
+        ->with('success', 'Review deleted successfully!');
     }
 
-    // App\Models\Review.php
-
-    public function replies()
-    {
-        return $this->hasMany(Reply::class);
-    }
 
 }
